@@ -1,0 +1,16 @@
+
+
+<div class="card-container">
+  <mat-card [ngStyle]="{'margin': '5px'}" class="card"  *ngFor="let customer of customers" >
+    <mat-card-header>
+      <mat-card-title>{{ customer.fullName }}</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <div *ngFor="let order of orders" >
+        <div *ngIf="customer.id === order.customerId" >
+          {{ order.orderName }}
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>
