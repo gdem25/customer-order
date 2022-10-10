@@ -14,7 +14,8 @@ namespace CustomerOrderBack.Controllers
         private static readonly string[] OrderNames = new[]
         {
             "Televison", "Tomatoes", "Oven", "Hard Drive", "Pickles", "Raw chicken", "Lettuce",
-            "Ice Cream", "Frozen fries", "Sweet Potatoes", "Nutella", "Soda","Orange juice"
+            "Ice Cream", "Frozen fries", "Sweet Potatoes", "Nutella", "Soda","Orange juice","cucumber",
+            "Olive oil", "Soy milk", "Noodles", "Mac and cheese","Frozen burgers", "Frozen Pizza"
         };
 
         private readonly ILogger<CustomerOrderController> _logger;
@@ -33,7 +34,7 @@ namespace CustomerOrderBack.Controllers
         }
         private static readonly Customer[] Customers = CustomerArray();
         private static IEnumerable<Order> OrdersArray() {
-            return Enumerable.Range(0, 13).Select(index => new Order 
+            return Enumerable.Range(0, 20).Select(index => new Order 
             { 
                 Id = (index+1),
                 OrderName = OrderNames[index],
