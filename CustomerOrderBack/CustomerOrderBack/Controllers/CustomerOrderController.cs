@@ -8,7 +8,7 @@ namespace CustomerOrderBack.Controllers
     {
         private static readonly string[] CustomerNames = new[] 
         { 
-            "James Gordon","Hank Tompson", "Lois Lane","Bruce Banner", "John Doe" 
+            "James Gordon","Hank Thompson", "Lois Lane","Bruce Banner", "John Doe" 
         };
 
         private static readonly string[] OrderNames = new[]
