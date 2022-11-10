@@ -1,20 +1,18 @@
-
-
-<div class="card-container">
-  <mat-card [ngStyle]="{'margin': '5px'}" class="card"  *ngFor="let customer of customers" >
-    <mat-card-header>
-      <mat-card-subtitle  >Customer</mat-card-subtitle>
-      <mat-card-title>{{ customer.fullName }}</mat-card-title>
-    </mat-card-header>
-    <mat-card-content>
-      <mat-card-subtitle [ngStyle]="{'text-align': 'center'}">Orders</mat-card-subtitle>
-      <div>
-      <div *ngFor="let order of orders" >
-        <div [ngStyle]="{'padding': '2px'}" *ngIf="customer.id === order.customerId" >
-          {{ order.orderName }}
-        </div>
-      </div>
-    </div>
-    </mat-card-content>
-  </mat-card>
+<div class="container" >
+  <div *ngIf="!orders">loading</div>
+  <div *ngIf="orders">
+    <h1>{{orders.firstName}}</h1>
+  <table  >
+    <tr>
+      <th>Id</th>
+      <th>Order Name</th>
+      <th>Price</th>
+    </tr>
+    <tr *ngFor="let order of orders.orders" >
+      <td>{{order.id}}</td>
+      <td>{{order.orderName}}</td>
+      <td>{{order.price}}</td>
+    </tr>
+  </table>
+</div>
 </div>

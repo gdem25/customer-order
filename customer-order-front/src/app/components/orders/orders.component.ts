@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { OrderService } from '../../services/order.service';
-import { Order } from '../../types/Order';
-import { Customer } from '../../types/Customer';
+import { ActivatedRoute } from '@angular/router';
+import { CustomerService } from '../../services/customer.service';
+import { CustomerOrders } from '../../types/Customer';
 
 @Component({
   selector: 'app-orders',
@@ -9,14 +9,19 @@ import { Customer } from '../../types/Customer';
   styleUrls: ['./orders.component.css'],
 })
 export class OrdersComponent implements OnInit {
-  customers: Customer[] = [];
-  orders: Order[] = [];
-  constructor(private orderService: OrderService) {}
+  id?: number;
+  orders!: CustomerOrders;
+
+  constructor(
+    private customerService: CustomerService,
+    private activatedRoute: ActivatedRoute
+  ) {}
 
   ngOnInit(): void {
-    this.orderService
-      .getCustomers()
-      .subscribe((customers) => (this.customers = customers));
-    this.orderService.getOrders().subscribe((orders) => (this.orders = orders));
+    let idParam = this.activatedRoute.snapshot.paramMap.get('id');
+    this.id = idParam ? +idParam : 0;
+    this.customerService
+      .getCustomerOrders(this.id)
+      .subscribe((obj) => (this.orders = obj));
   }
 }

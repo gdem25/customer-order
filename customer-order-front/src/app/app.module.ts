@@ -9,13 +9,25 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
 
 import { AppComponent } from './app.component';
-import { OrdersComponent } from './components/orders/orders.component';
 import { NavBarComponent } from './components/nav-bar/nav-bar.component';
+import { CustomersComponent } from './components/customers/customers.component';
+import { HomeComponent } from './components/home/home.component';
+import { OrdersComponent } from './components/orders/orders.component';
 
-const appRoutes: Routes = [{ path: '', component: OrdersComponent }];
+const appRoutes: Routes = [
+  { path: '', component: HomeComponent, pathMatch: 'full' },
+  { path: 'customers', component: CustomersComponent },
+  { path: 'customer-orders/:id', component: OrdersComponent },
+];
 
 @NgModule({
-  declarations: [AppComponent, OrdersComponent, NavBarComponent],
+  declarations: [
+    AppComponent,
+    NavBarComponent,
+    CustomersComponent,
+    HomeComponent,
+    OrdersComponent,
+  ],
   imports: [
     BrowserModule,
     HttpClientModule,

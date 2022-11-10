@@ -1,4 +1,5 @@
-﻿using CustomerOrderModel.Models;
+﻿using CustomerOrderBack.Dtos;
+using CustomerOrderModel.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -22,13 +23,12 @@ namespace CustomerOrderBack.Controllers
             return await _context.Customers.ToListAsync();
         }
         [HttpGet("{id}")]
-        public async Task<ActionResult<Customer>> GetCustomer(int id)
+        public async Task<ActionResult<CustomerOrder>> GetCustomer(int id)
         {
-            Customer? customerDto = await _context.Customers
+            CustomerOrder? customerDto = await _context.Customers
                 .Where(x => x.Id == id)
-                .Select(x => new Customer
+                .Select(x => new CustomerOrder
                 {
-                    Id = x.Id,
                     FirstName = x.FirstName,
                     LastName = x.LastName,
                     Orders = x.Orders
