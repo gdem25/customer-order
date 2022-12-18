@@ -2,5 +2,12 @@
   <mat-toolbar color="primary" >
     <a mat-flat-button color="primary" [routerLink]="['/']">Home</a>
     <a mat-flat-button color="primary" [routerLink]="['/customers']">Customers</a>
+    <span class="separator"></span>
+    <a *ngIf="!isLoggedIn" mat-flat-button color="primary" [routerLink]="['/login']">
+      Log in
+    </a>
+    <a *ngIf="isLoggedIn" mat-flat-button color="primary" (click)="logOut()">
+      Log out
+    </a>
   </mat-toolbar>
 </header>

@@ -18,4 +18,13 @@ export class CustomerService {
   getCustomerOrders(id: number): Observable<CustomerOrders> {
     return this.http.get<CustomerOrders>(`${this.apiUrl}/Customers/${id}`);
   }
+  getCustomer(id: number): Observable<Customer> {
+    return this.http.get<Customer>(`${this.apiUrl}/Customers/Customer/${id}`);
+  }
+  EditCustomer(id: number, customer: Customer): Observable<any> {
+    return this.http.put(`${this.apiUrl}/Customers/${id}`, customer);
+  }
+  AddCustomer(customer: Customer): Observable<Customer> {
+    return this.http.post<Customer>(`${this.apiUrl}/Customers`, customer);
+  }
 }

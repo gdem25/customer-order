@@ -1,5 +1,6 @@
 ﻿using CustomerOrderModel.Models;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CustomerOrderBack.Controllers
@@ -28,9 +29,16 @@ namespace CustomerOrderBack.Controllers
 
 
         private readonly CustomerOrdersContext _context;
-        public SeedController(CustomerOrdersContext context)
+        private readonly UserManager<CustomerOrderUser> _userManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly IConfiguration _configuration;
+        public SeedController(CustomerOrdersContext context, UserManager<CustomerOrderUser> userManager, 
+            RoleManager<IdentityRole> roleManager, IConfiguration configuration)
         {
             _context = context;
+            _userManager = userManager;
+            _roleManager = roleManager;
+            _configuration = configuration;
         }
 
 
@@ -75,6 +83,70 @@ namespace CustomerOrderBack.Controllers
                 await _context.SaveChangesAsync();
             }
             return new JsonResult(count);
+        }
+
+
+        [HttpGet("Users")]
+        public async Task<IActionResult> CreateUsers()
+        {
+            const string roleUser = "RegisteredUser";
+            const string roleAdmin = "Administrator";
+
+            if (await _roleManager.FindByNameAsync(roleUser) is null)
+            {
+                await _roleManager.CreateAsync(new IdentityRole(roleUser));
+            }
+            if (await _roleManager.FindByNameAsync(roleAdmin) is null)
+            {
+                await _roleManager.CreateAsync(new IdentityRole(roleAdmin));
+            }
+
+            List<CustomerOrderUser> addedUserList = new();
+            (string name, string email) = ("admin", "admin@email.com");
+
+            if (await _userManager.FindByNameAsync(name) is null)
+            {
+                CustomerOrderUser userAdmin = new()
+                {
+                    UserName = name,
+                    Email = email,
+                    SecurityStamp = Guid.NewGuid().ToString()
+                };
+                await _userManager.CreateAsync(userAdmin, _configuration["DefaultPasswords:Administrator"]);
+                await _userManager.AddToRolesAsync(userAdmin, new[] { roleUser, roleAdmin });
+                userAdmin.EmailConfirmed = true;
+                userAdmin.LockoutEnabled = false;
+                addedUserList.Add(userAdmin);
+            }
+
+            (string name, string email) registered = ("user", "user@email.com");
+
+            if (await _userManager.FindByNameAsync(registered.name) is null)
+            {
+                CustomerOrderUser user = new()
+                {
+                    UserName = registered.name,
+                    Email = registered.email,
+                    SecurityStamp = Guid.NewGuid().ToString()
+                };
+                await _userManager.CreateAsync(user, _configuration["DefaultPasswords:RegisteredUser"]);
+                await _userManager.AddToRoleAsync(user, roleUser);
+                user.EmailConfirmed = true;
+                user.LockoutEnabled = false;
+                addedUserList.Add(user);
+            }
+
+            if (addedUserList.Count > 0)
+            {
+                await _context.SaveChangesAsync();
+            }
+
+            return new JsonResult(new
+            {
+                addedUserList.Count,
+                Users = addedUserList
+            });
+
         }
     }
 }

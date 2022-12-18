@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CustomerService } from '../../services/customer.service';
 import { Customer } from '../../types/Customer';
+import { faPencilAlt } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-customers',
@@ -9,7 +10,9 @@ import { Customer } from '../../types/Customer';
 })
 export class CustomersComponent implements OnInit {
   customers!: Customer[];
+
   constructor(private customerService: CustomerService) {}
+  faPencil = faPencilAlt;
 
   ngOnInit(): void {
     this.customerService

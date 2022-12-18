@@ -1,0 +1,20 @@
+<div>
+  <h1>{{title}}</h1>
+  <p *ngIf="id && !customer">loading...</p>
+  <form [formGroup]="form" (ngSubmit)="onSubmit()" >
+    <mat-form-field>
+      <mat-label>First Name</mat-label>
+      <input matInput formControlName="firstName" required placeholder="first name" />
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Last Name</mat-label>
+      <input matInput formControlName="lastName" required placeholder="last name" />
+    </mat-form-field>
+    <div>
+      <button mat-flat-button color="primary" type="submit">
+        {{ id ? "Save" : "Create" }}
+      </button>
+      <button mat-flat-button color="secondary" [routerLink]="['/customers']">Cancel</button>
+    </div>
+  </form>
+</div>

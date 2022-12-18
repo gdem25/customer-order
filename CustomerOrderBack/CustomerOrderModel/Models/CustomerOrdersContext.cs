@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.Extensions.Configuration;
 
 namespace CustomerOrderModel.Models
 {
-    public partial class CustomerOrdersContext : DbContext
+    public partial class CustomerOrdersContext : IdentityDbContext<CustomerOrderUser>
     {
         public CustomerOrdersContext()
         {
@@ -34,6 +35,7 @@ namespace CustomerOrderModel.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<Order>(entity =>
             {
                 entity.HasOne(d => d.Customer)

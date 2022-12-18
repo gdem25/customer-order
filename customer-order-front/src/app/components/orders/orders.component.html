@@ -5,12 +5,16 @@
   <table  >
     <tr>
       <th>Id</th>
+      <div class="gap"></div>
       <th>Order Name</th>
+      <div class="gap"></div>
       <th>Price</th>
     </tr>
     <tr *ngFor="let order of orders.orders" >
       <td>{{order.id}}</td>
+      <div class="gap"></div>
       <td>{{order.orderName}}</td>
+      <div class="gap"></div>
       <td>{{order.price}}</td>
     </tr>
   </table>
