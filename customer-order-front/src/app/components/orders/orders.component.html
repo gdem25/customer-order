@@ -1,22 +1,34 @@
+<button mat-flat-button color="primary" class="btn-add" [routerLink]="['/order-edit']">
+  Add a new Order
+</button>
 <div class="container" >
   <div *ngIf="!orders">loading</div>
   <div *ngIf="orders">
     <h1>{{orders.firstName}}</h1>
+    <h3>{{"Order Total "+orderTotal?.total+"$"}}</h3>
   <table  >
     <tr>
+      <th></th>
+      <div class="gap"></div>
       <th>Id</th>
       <div class="gap"></div>
       <th>Order Name</th>
       <div class="gap"></div>
       <th>Price</th>
+      <div class="gap"></div>
+      <th></th>
     </tr>
     <tr *ngFor="let order of orders.orders" >
+      <td><a [routerLink]="['/order-edit',order.id]"><fa-icon [icon]="faPencilAlt"></fa-icon></a></td>
+      <div class="gap"></div>
       <td>{{order.id}}</td>
       <div class="gap"></div>
       <td>{{order.orderName}}</td>
       <div class="gap"></div>
       <td>{{order.price}}</td>
+      <td><button mat-button color="primary" (click)="onDelete(order.id)" >Delete</button></td>
     </tr>
   </table>
 </div>
 </div>
+

@@ -7,3 +7,15 @@
 .gap {
   margin-right: 40px;
 }
+
+.btn-add {
+  float: right;
+  margin-top: 20px;
+  margin-right: 100px;
+  display: flex;
+  flex-direction: column;
+}
+
+.space {
+  margin-top: 40px;
+}

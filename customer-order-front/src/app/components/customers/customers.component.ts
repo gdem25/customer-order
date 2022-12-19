@@ -12,11 +12,29 @@ export class CustomersComponent implements OnInit {
   customers!: Customer[];
 
   constructor(private customerService: CustomerService) {}
-  faPencil = faPencilAlt;
+  faPencilAlt = faPencilAlt;
 
   ngOnInit(): void {
     this.customerService
       .getCustomers()
       .subscribe((customers) => (this.customers = customers));
+  }
+
+  onDelete(id: number) {
+    this.customerService.deleteCustomer(id).subscribe({
+      next: () => {
+        this.customerService.getCustomers().subscribe({
+          next: (result) => {
+            this.customers = result;
+          },
+          error: (error) => {
+            console.log(error);
+          },
+        });
+      },
+      error: (error) => {
+        console.log(error);
+      },
+    });
   }
 }

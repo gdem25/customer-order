@@ -9,6 +9,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 import { AppComponent } from './app.component';
@@ -29,6 +30,8 @@ const appRoutes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'customer-edit', component: CustomerEditComponent },
   { path: 'customer-edit/:id', component: CustomerEditComponent },
+  { path: 'order-edit', component: OrderEditComponent },
+  { path: 'order-edit/:id', component: OrderEditComponent },
 ];
 
 @NgModule({
@@ -54,6 +57,7 @@ const appRoutes: Routes = [
     MatIconModule,
     MatFormFieldModule,
     MatInputModule,
+    MatSelectModule,
     FontAwesomeModule,
   ],
   providers: [

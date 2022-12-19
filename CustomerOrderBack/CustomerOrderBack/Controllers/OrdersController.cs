@@ -1,4 +1,5 @@
-﻿using CustomerOrderModel.Models;
+﻿using CustomerOrderBack.Dtos;
+using CustomerOrderModel.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -37,22 +38,42 @@ namespace CustomerOrderBack.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<Order>> AddOrder(Order order)
+        public async Task<ActionResult<Order>> AddOrder(OrderDto neworder)
         {
+            Order order = new()
+            {
+                OrderName = neworder.OrderName,
+                Price = (decimal)neworder.Price,
+                CustomerId = neworder.CustomerId
+            };
             _context.Orders.Add(order);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetOrder", new {id = order.Id}, order);
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateException) {
+                throw;
+            }
+            
+            return CreatedAtAction("GetOrder", new { id = order.Id }, order);
         }
 
         [HttpPut("{id:int}")]
-        public async Task<ActionResult> EditOrder(int id, Order order)
+        public async Task<ActionResult> EditOrder(int id, OrderDto order)
         {
-            if(id != order.Id)
+            Order newOrder = new()
+            {
+                Id= order.Id,
+                OrderName = order.OrderName,
+                Price = (decimal)order.Price,
+                CustomerId = order.CustomerId
+            };
+
+            if (id != order.Id)
             {
                 return BadRequest();
             }
-            _context.Entry(order).State = EntityState.Modified;
+            _context.Entry(newOrder).State = EntityState.Modified;
             try
             {
                 await _context.SaveChangesAsync();
@@ -66,6 +87,18 @@ namespace CustomerOrderBack.Controllers
                 throw;
             }
 
+            return NoContent();
+        }
+
+        [HttpDelete("{id:int}")]
+        public async Task<ActionResult> DeleteOrder(int id) {
+            Order? order = await _context.Orders.FindAsync(id);
+            if(order == null)
+            {
+                return NotFound();
+            }
+            _context.Orders.Remove(order);
+            await _context.SaveChangesAsync();
             return NoContent();
         }
 

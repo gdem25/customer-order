@@ -55,7 +55,7 @@ export class CustomerEditComponent implements OnInit {
     customer.firstName = this.form.controls['firstName'].value;
     customer.lastName = this.form.controls['lastName'].value;
     if (this.id) {
-      this.customerService.EditCustomer(this.id, customer).subscribe({
+      this.customerService.editCustomer(this.id, customer).subscribe({
         next: () => {
           this.router.navigate(['/customers']);
         },
@@ -64,7 +64,7 @@ export class CustomerEditComponent implements OnInit {
         },
       });
     } else {
-      this.customerService.AddCustomer(customer).subscribe({
+      this.customerService.addCustomer(customer).subscribe({
         next: () => {
           this.router.navigate(['/customers']);
         },

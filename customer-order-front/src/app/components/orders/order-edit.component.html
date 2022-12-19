@@ -1,1 +1,30 @@
-<p>order-edit works!</p>
+<div>
+  <h1>{{title}}</h1>
+  <p *ngIf="id && !order" >loading...</p>
+  <form [formGroup]="form" (ngSubmit)="onSubmit()" >
+    <mat-form-field>
+      <mat-label>Order Name</mat-label>
+      <input matInput formControlName="orderName" required placeholder="order name" />
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Price</mat-label>
+      <input matInput formControlName="price" required placeholder="price" />
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Customer</mat-label>
+      <mat-select id="customerId" formControlName="customerId" >
+        <mat-option *ngFor="let customer of customers" [value]="customer.id" >
+          {{customer.firstName + " "+ customer.lastName}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <div>
+      <button mat-flat-button color="primary" type="submit">
+        {{id ? 'edit' : 'create'}}
+      </button>
+      <button mat-flat-button color="secondary" [routerLink]="['/customers']">
+        Cancel
+      </button>
+    </div>
+  </form>
+</div>

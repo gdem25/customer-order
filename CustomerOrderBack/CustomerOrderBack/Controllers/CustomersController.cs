@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Diagnostics.Metrics;
 
 namespace CustomerOrderBack.Controllers
 {
@@ -25,6 +26,7 @@ namespace CustomerOrderBack.Controllers
         {
             return await _context.Customers.ToListAsync();
         }
+
         [HttpGet("{id:int}")]
         public async Task<ActionResult<CustomerOrder>> GetCustomerOrders(int id)
         {
@@ -38,6 +40,19 @@ namespace CustomerOrderBack.Controllers
                 }).SingleOrDefaultAsync();
             if (customerDto == null) return NotFound();
             return Ok(customerDto);
+        }
+
+        [HttpGet("Total/{id:int}")]
+        public async Task<ActionResult<OrderTotal>> GetCustomerOrderTotal(int id) {
+            OrderTotal? totalDto = await _context.Customers
+                .Where(x => x.Id == id)
+                .Select(x => new OrderTotal
+                {
+                    Id = x.Id,
+                    Total = x.Orders.Select(t => t.Price).Sum()
+                }).SingleOrDefaultAsync();
+            if (totalDto == null) return NotFound();
+            return Ok(totalDto);
         }
 
         [HttpGet("Customer/{id:int}")]
@@ -81,7 +96,21 @@ namespace CustomerOrderBack.Controllers
             }
             return NoContent();
         }
- 
+
+        [HttpDelete("{id:int}")]
+        public async Task<IActionResult> DeleteCustomer(int id)
+        {
+            Customer? customer = await _context.Customers.FindAsync(id);
+            if (customer == null)
+            {
+                return NotFound();
+            }
+
+            _context.Customers.Remove(customer);
+            await _context.SaveChangesAsync();
+
+            return NoContent();
+        }
 
 
         private bool CustomerExists(int id) => _context.Customers.Any(c => c.Id == id);

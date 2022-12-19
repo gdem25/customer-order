@@ -1,4 +1,11 @@
-
+<div class="btn-add">
+  <button mat-flat-button color="primary"  [routerLink]="['/customer-edit']">
+    Add a new Customer
+  </button>
+  <button mat-flat-button color="primary" class="space" [routerLink]="['/order-edit']">
+    Add a new Order
+  </button>
+</div>
 <div class="container" >
   <div *ngIf="!customers">loading</div>
   <table *ngIf="customers" >
@@ -10,21 +17,22 @@
       <th>First Name</th>
       <div class="gap"></div>
       <th>Last Name</th>
+      <div class="gap"></div>
+      <th></th>
     </tr>
     <tr *ngFor="let customer of customers" >
-      <td><a [routerLink]="['/customer-edit',customer.id]"><fa-icon [icon]="faPencil"></fa-icon></a></td>
+      <td><a [routerLink]="['/customer-edit',customer.id]"><fa-icon [icon]="faPencilAlt"></fa-icon></a></td>
       <div class="gap"></div>
       <td><a [routerLink]="['/customer-orders',customer.id]" >{{customer.id}}</a></td>
       <div class="gap"></div>
       <td>{{customer.firstName}}</td>
       <div class="gap"></div>
       <td>{{customer.lastName}}</td>
+      <td><button mat-button color="primary" (click)="onDelete(customer.id)" >Delete</button></td>
     </tr>
   </table>
 </div>
-<div class="container">
-  <button mat-flat-button color="primary" class="btn-add" [routerLink]="['/customer-edit']">
-  Add a new Customer
-</button>
-</div>
+
+
+
 
