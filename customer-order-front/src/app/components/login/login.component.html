@@ -1,23 +1,19 @@
 <div>
-  <h1>Login</h1>
+  <h1 class="outer">Login</h1>
   <form [formGroup]="form" (ngSubmit)="onSubmit()">
-
+    <div class="inner">
       <mat-form-field>
-          <mat-label>Name:</mat-label>
-          <input matInput formControlName="userName" required="required" placeholder="Enter user name">
+        <mat-label>Name:</mat-label>
+        <input matInput formControlName="userName" required="required" placeholder="Enter user name">
       </mat-form-field>
-
       <mat-form-field>
-          <mat-label>Password:</mat-label>
-          <input matInput type="password" formControlName="password" required="required" placeholder="Enter password">
+        <mat-label>Password:</mat-label>
+        <input matInput type="password" formControlName="password" required="required" placeholder="Enter password">
       </mat-form-field>
-
       <div>
-          <button mat-flat-button color="primary" type="submit">Login</button>
+        <button mat-flat-button color="primary" class="b1" type="submit">Login</button>
+        <button mat-flat-button color="secondary" class="b2" [routerLink]="['/']">Cancel</button>
       </div>
-
-      <div>
-          <button mat-flat-button color="secondary" [routerLink]="['/']">Cancel</button>
-      </div>
+    </div>
   </form>
 </div>

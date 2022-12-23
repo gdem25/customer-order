@@ -13,12 +13,16 @@ namespace CustomerOrderBack.Controllers
     [ApiController]
     public class AccountController : ControllerBase
     {
+        private readonly CustomerOrdersContext _context;
         private readonly UserManager<CustomerOrderUser> _userManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
         private readonly JwtHandler _jwtHandler;
 
-        public AccountController(UserManager<CustomerOrderUser> userManager, JwtHandler jwtHandler)
+        public AccountController(CustomerOrdersContext context, UserManager<CustomerOrderUser> userManager, RoleManager<IdentityRole> roleManager,  JwtHandler jwtHandler)
         {
+            _context = context;
             _userManager = userManager;
+            _roleManager = roleManager;
             _jwtHandler = jwtHandler;
         }
         [HttpPost]
@@ -43,5 +47,52 @@ namespace CustomerOrderBack.Controllers
                 Token = jwt
             });
         }
+
+        [HttpPost("Signup")]
+        public async Task<ActionResult<LoginResponse>> SignUp(SignupRequest userRequest)
+        {
+            const string roleUser = "RegisteredUser";
+
+            int count = 0;
+
+            string jwt = "";
+
+            if (await _roleManager.FindByNameAsync(roleUser) is null)
+            {
+                await _roleManager.CreateAsync(new IdentityRole(roleUser));
+            }
+
+            if ( await _userManager.FindByNameAsync(userRequest.UserName) is null)
+            {
+                
+                CustomerOrderUser user = new()
+                {
+                    UserName = userRequest.UserName,
+                    Email = userRequest.Email,
+                    SecurityStamp = Guid.NewGuid().ToString()
+                };
+                await _userManager.CreateAsync(user, userRequest.Password);
+                await _userManager.AddToRoleAsync(user, roleUser);
+                user.EmailConfirmed= true;
+                user.LockoutEnabled= false;
+                JwtSecurityToken secToken = await _jwtHandler.GetTokenAsync(user);
+                jwt = new JwtSecurityTokenHandler().WriteToken(secToken);
+                count++;
+            }
+
+            if(count <= 0)
+            {
+                return BadRequest();
+            }
+
+            await _context.SaveChangesAsync();
+            return Ok(new LoginResponse
+            {
+                Success= true,
+                Message= "Sign up was successfull",
+                Token= jwt
+            });
+        }
+
     }
 }

@@ -1,0 +1,23 @@
+<div>
+  <h1 class="outer">Signup form</h1>
+  <form [formGroup]="form" (ngSubmit)="onSubmit()" >
+    <div class="inner">
+    <mat-form-field>
+      <mat-label>Username</mat-label>
+      <input matInput formControlName="userName" required placeholder="username" />
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Email</mat-label>
+      <input matInput formControlName="email" required placeholder="email" />
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Password</mat-label>
+      <input matInput formControlName="password" required placeholder="password" type="password" />
+    </mat-form-field>
+    <div>
+      <button mat-flat-button color="primary" class="b1" type="submit" >Signup</button>
+      <button  mat-flat-button color="secondary" class="b2" [routerLink]="['/']" >cancel</button>
+    </div>
+  </div>
+  </form>
+</div>

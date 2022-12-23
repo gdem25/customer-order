@@ -9,5 +9,6 @@
     <a *ngIf="isLoggedIn" mat-flat-button color="primary" (click)="logOut()">
       Log out
     </a>
+    <a mat-flat-button color="primary" [routerLink]="['/signup']" >Sign up</a>
   </mat-toolbar>
 </header>

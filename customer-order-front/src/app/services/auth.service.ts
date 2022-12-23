@@ -4,6 +4,7 @@ import { Observable, Subject, tap } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { LoginRequest } from '../types/loginRequest';
 import { LoginResponse } from '../types/loginResponse';
+import { SignupRequest } from '../types/signupRequest';
 
 @Injectable({
   providedIn: 'root',
@@ -27,6 +28,18 @@ export class AuthService {
       tap((loginResult: LoginResponse): void => {
         if (loginResult.success && loginResult.token) {
           localStorage.setItem(this.tokenKey, loginResult.token);
+          this.setAuthStatus(true);
+        }
+      })
+    );
+  }
+
+  signup(request: SignupRequest): Observable<LoginResponse> {
+    const url = `${environment.baseUrl}/Account/Signup`;
+    return this.http.post<LoginResponse>(url, request).pipe(
+      tap((signupResult: LoginResponse): void => {
+        if (signupResult.success && signupResult.token) {
+          localStorage.setItem(this.tokenKey, signupResult.token);
           this.setAuthStatus(true);
         }
       })

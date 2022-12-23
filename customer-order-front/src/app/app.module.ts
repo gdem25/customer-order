@@ -22,6 +22,7 @@ import { AuthInterceptor } from './interceptors/auth.interceptor';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CustomerEditComponent } from './components/customers/customer-edit.component';
 import { OrderEditComponent } from './components/orders/order-edit.component';
+import { SignupComponent } from './components/signup/signup.component';
 
 const appRoutes: Routes = [
   { path: '', component: HomeComponent, pathMatch: 'full' },
@@ -32,6 +33,7 @@ const appRoutes: Routes = [
   { path: 'customer-edit/:id', component: CustomerEditComponent },
   { path: 'order-edit', component: OrderEditComponent },
   { path: 'order-edit/:id', component: OrderEditComponent },
+  { path: 'signup', component: SignupComponent },
 ];
 
 @NgModule({
@@ -44,6 +46,7 @@ const appRoutes: Routes = [
     LoginComponent,
     CustomerEditComponent,
     OrderEditComponent,
+    SignupComponent,
   ],
   imports: [
     BrowserModule,
